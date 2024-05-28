@@ -1,43 +1,37 @@
 {
   "name": "zip-encrypted",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "zip-encrypted is a library for Node.js for compressing and decompressing data and files using passwords.",
   "main": "./dist/index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index.js",
-    "build": "tsc -p .",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KyungTaeLa/zip-encrypted.git"
+    "url": "https://github.com/KyungTaeLa/zip-encrypted.git"
+  },
+  "homepage": "https://github.com/KyungTaeLa/zip-encrypted.git",
+  "author": {
+    "name": "KyungTaeNa",
+    "email": "ktra0@naver.com"
+  },
+  "scripts": {
+    "build": "tsc",
+    "deploy": "npm publish"
   },
   "keywords": [
-    "zip"
+    "zip",
+    "zip encrypt",
+    "zip-encrpyt",
+    "zip encrpyted",
+    "zip-encrpyted",
+    "unzip",
+    "unzip encrypt",
+    "unzip-encrpyt",
+    "unzip encrpyted",
+    "unzip-encrpyted"
   ],
-  "author": "KyungTae Na",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/KyungTaeLa/zip-encrypted/issues"
-  },
-  "homepage": "https://github.com/KyungTaeLa/zip-encrypted#readme",
   "dependencies": {
     "@types/node": "^20.12.12",
     "child_process": "^1.0.2",
     "typescript": "^5.4.5"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
-  },
-  "compilerOptions": {
-    "preserveValueImports": false,
-    "module": "CommonJS"
   }
 }

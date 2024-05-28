@@ -59,7 +59,7 @@ export class Temping implements ITemping {
 
   // generate random name
   path(rawAffixes?: string | IAffixOptions): string {
-    return this.path(rawAffixes);
+    return Temping.path(rawAffixes);
   }
 
   // generate random name (static method)

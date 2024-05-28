@@ -19,12 +19,12 @@ import { Temping } from './temping';
  * @alias json Data compression function
  * @alias json data 압축 함수
  */
-function makezip(input: IMakeZipJsonData): Promise<IMakeZipOutput>;
+function makeZip(input: IMakeZipJsonData): Promise<IMakeZipOutput>;
 /**
  * @alias Specified file compression function
  * @alias 지정한 파일 압축 함수
  */
-function makezip(input: IMakeZipFiles): Promise<IMakeZipOutput>;
+function makeZip(input: IMakeZipFiles): Promise<IMakeZipOutput>;
 
 /**
  * @alias 압축 파일 만들기 함수
@@ -32,7 +32,7 @@ function makezip(input: IMakeZipFiles): Promise<IMakeZipOutput>;
  * @alias make zip function
  * @description This is a function that compresses json data or files depending on the overloaded type.
  */
-async function makezip(
+async function makeZip(
   input: IMakeZipJsonData | IMakeZipFiles,
 ): Promise<IMakeZipOutput> {
   const temp = new Temping();
@@ -149,7 +149,7 @@ async function makezip(
  * @alais 압축 파일 다운로드 후 압축 해제 하는 함수
  * @alais Function to uncompress a compressed file after downloading it
  */
-function unzip(
+function unZip(
   input: IUnZipToFilePathInput,
 ): Promise<IUnZipAndReturnDataOutput>;
 
@@ -157,7 +157,7 @@ function unzip(
  * @alias 지정된 경로에 있는 압축파일을 해제 하는 함수
  * @alias Function to unpack the compressed file in the specified path.
  */
-function unzip(
+function unZip(
   input: IUnZipToFileStreamInput,
 ): Promise<IUnZipAndReturnDataOutput>;
 
@@ -180,7 +180,7 @@ function unzip(
  * ex) If there are data1.json and data2.json files after decompression,
  * @returns { success : true , jsonData : { data1 : { ...json content }, data2: { ...json content } } }
  */
-async function unzip(
+async function unZip(
   input: IUnZipToFilePathInput | IUnZipToFileStreamInput,
 ): Promise<IUnZipAndReturnDataOutput> {
   const temp = new Temping();
@@ -264,4 +264,4 @@ async function unzip(
   }
 }
 
-export { makezip, unzip };
+export { makeZip, unZip };
