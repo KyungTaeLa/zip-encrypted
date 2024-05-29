@@ -14,7 +14,7 @@ export class IUnZipCommon {
   /**
    * @alias 압축 해제 파일 폴더 경로
    */
-  dirPath?: string;
+  dirPath: string;
 }
 
 export class IUnZipToFilePathInput extends IUnZipCommon {

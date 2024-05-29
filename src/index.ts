@@ -6,7 +6,7 @@ import {
 } from './interface/make-zip.interface';
 import { writeFile } from 'fs/promises';
 import { createWriteStream, existsSync, mkdirSync, unlinkSync } from 'fs';
-import path from 'path';
+import { basename, dirname, join } from 'path';
 import {
   IUnZipAndReturnDataOutput,
   IUnZipToFilePathInput,
@@ -58,7 +58,7 @@ async function makeZip(
         const jsonPath = temp
           .path({ dir: input.dirPath, defaultName: one.jsonName })
           .replace(/\\/g, '/');
-        fileList.push(jsonPath);
+        fileList.push(one.jsonName);
         await writeFile(jsonPath, JSON.stringify(one.jsonData));
       }
 
@@ -71,13 +71,13 @@ async function makeZip(
       // arguments로 들어온 압축 대상 파일 경로 기록
       // record the compression target file path entered as arguments
       fileList.push(
-        input.filesPath.map(one => path.basename(one).replace(/\\/g, '/')),
+        input.filesPath.map(one => basename(one).replace(/\\/g, '/')),
       );
 
       // spawn 옵션에 압축 대상 파일 경로 지정
       // specify the path to the compressed file in the spawn option
       options = {
-        cwd: path.dirname(input.filesPath[0]),
+        cwd: dirname(input.filesPath[0]),
       };
     }
 
@@ -139,7 +139,7 @@ async function makeZip(
     // If json data is compressed, delete the temporarily created json file
     if ('data' in input) {
       for (const deleteList of fileList) {
-        unlinkSync(path.join(input.dirPath, deleteList));
+        unlinkSync(join(input.dirPath, deleteList));
       }
     }
   }
@@ -215,7 +215,7 @@ async function unZip(
       });
     } else {
       zipPath = input.zipPath.replace(/\\/g, '/');
-      dirPath = path.basename(zipPath);
+      dirPath = basename(zipPath);
     }
 
     return await new Promise(async (resolve, reject) => {
