@@ -68,10 +68,10 @@ const { success, dirPath, zipPath } = await makeZip({
   - Description: JSON data to be compressed into a zip file
     - type:
 
-```json
+```
 {
-  jsonData: { [key: string]: any },
-  jsonName: string,
+  jsonData: { [key: string]: any };
+  jsonName: string;
 }
 ```
 
