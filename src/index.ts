@@ -207,7 +207,7 @@ async function unZip(
       // zip 파일 stream으로 읽기
       // read to zip file stream
       const fileWriterStream = createWriteStream(zipPath);
-      response.input.pipe(fileWriterStream);
+      response.data.pipe(fileWriterStream);
 
       await new Promise((resolve, reject) => {
         fileWriterStream.on('finish', resolve);
@@ -241,7 +241,7 @@ async function unZip(
           if (input.returnJsonYn === true) {
             // 압축 해제한 파일들 있는 임시 폴더에 있는 json 파일들 한 객체에 추가
             // Add json files in the temporary folder containing the unzipped files to one object
-            const jsonData = await this.readJsonFilesFromDirectory(dirPath);
+            const jsonData = await readJsonFilesFromDirectory(dirPath);
 
             // json data 같이 반환
             // return with json data
