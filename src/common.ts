@@ -39,10 +39,8 @@ export const readJsonFilesFromDirectory = async (
         const rawContent = readFileSync(join(directory, file), 'utf8');
         // json data parsing
         const jsonContent = JSON.parse(rawContent);
-        // 파일명 추출
-        const fileNameWithoutExt = basename(file, '.json');
         // 파일명을 key로 하여 json data 객체에 추가
-        jsonData[fileNameWithoutExt] = jsonContent;
+        jsonData[file] = jsonContent;
       }
     }
 

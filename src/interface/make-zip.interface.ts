@@ -11,7 +11,7 @@ class IMakeZipCommon {
   /**
    * @alias 압축 파일 생성 폴더
    */
-  dirPath: string;
+  dirPath?: string;
 
   /**
    * @alias 압축파일 비밀번호

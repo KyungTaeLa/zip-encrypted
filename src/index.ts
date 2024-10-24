@@ -14,6 +14,7 @@ import {
 } from './interface/un-zip-and-return-data.dto';
 import { fetchStream, readJsonFilesFromDirectory } from './common';
 import { Temping } from './temping';
+import * as fs from 'fs';
 
 /**
  * @alias json Data compression function
@@ -36,18 +37,19 @@ async function makeZip(
   input: IMakeZipJsonData | IMakeZipFiles,
 ): Promise<IMakeZipOutput> {
   const temp = new Temping();
+  const dirPath = input.dirPath || temp.mkdir('zip_encrypted_temp');
   const fileList = [];
   try {
     // 지정한 경로가 존재하지 않는 경우 폴더 생성
     // Create folder if the specified path does not exist
-    if (!existsSync(input.dirPath)) {
-      mkdirSync(input.dirPath, { recursive: true });
+    if (!existsSync(dirPath)) {
+      mkdirSync(dirPath, { recursive: true });
     }
 
     // 압축 파일 경로 생성
     // Create zip file path
     const zipPath = temp
-      .path({ dir: input.dirPath, suffix: 'zip' })
+      .path({ dir: dirPath, suffix: 'zip' })
       .replace(/\\/g, '/');
 
     let options: SpawnOptionsWithoutStdio;
@@ -56,7 +58,7 @@ async function makeZip(
       // save JSON data as file
       for (const one of input.data) {
         const jsonPath = temp
-          .path({ dir: input.dirPath, defaultName: one.jsonName })
+          .path({ dir: dirPath, defaultName: one.jsonName })
           .replace(/\\/g, '/');
         fileList.push(one.jsonName);
         await writeFile(jsonPath, JSON.stringify(one.jsonData));
@@ -65,7 +67,7 @@ async function makeZip(
       // spawn 옵션에 json 파일 경로 지정
       // specify json file path in spawn option
       options = {
-        cwd: input.dirPath,
+        cwd: dirPath,
       };
     } else {
       // arguments로 들어온 압축 대상 파일 경로 기록
@@ -119,7 +121,7 @@ async function makeZip(
             success: true,
             // 압축 파일 폴더 경로
             // zip file folder path
-            dirPath: input.dirPath.replace(/\\/g, '/'),
+            dirPath: dirPath.replace(/\\/g, '/'),
             // 압축 파일 경로
             // zip file path
             zipPath,
@@ -185,15 +187,13 @@ async function unZip(
 ): Promise<IUnZipAndReturnDataOutput> {
   const temp = new Temping();
   try {
-    let dirPath: string;
     let zipPath: string;
+
+    // 임시 폴더 생성
+    const dirPath = input.dirPath || temp.mkdir('zip_encrypted_temp');
     // 웹상에 올라가있는 압축파일일 경우
     // If it is a compressed file posted on the web
     if ('url' in input) {
-      // 임시 폴더 생성
-      // Create temporary folder
-      dirPath = input.dirPath;
-
       // zip 파일 경로 지정
       // Specify zip file path
       zipPath = temp.path({ dir: dirPath, suffix: '.zip' }).replace(/\\/g, '/');
@@ -213,9 +213,19 @@ async function unZip(
         fileWriterStream.on('finish', resolve);
         fileWriterStream.on('error', reject);
       });
+    } else if ('fileStream' in input) {
+      // 파일 객체가 있을 경우: 파일을 임시 디렉토리에 저장
+      zipPath = temp.path({ dir: dirPath, suffix: '.zip' });
+
+      // 파일의 buffer를 사용하여 저장
+      fs.writeFileSync(zipPath, input.fileStream.buffer);
+
+      // 파일이 성공적으로 저장되었는지 확인
+      if (!fs.existsSync(zipPath)) {
+        throw new Error('file save failed');
+      }
     } else {
-      zipPath = input.zipPath.replace(/\\/g, '/');
-      dirPath = basename(zipPath);
+      throw new Error('Invalid input file format');
     }
 
     return await new Promise(async (resolve, reject) => {

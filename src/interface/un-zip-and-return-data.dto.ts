@@ -14,7 +14,7 @@ export class IUnZipCommon {
   /**
    * @alias 압축 해제 파일 폴더 경로
    */
-  dirPath: string;
+  dirPath?: string;
 }
 
 export class IUnZipToFilePathInput extends IUnZipCommon {
@@ -26,14 +26,14 @@ export class IUnZipToFilePathInput extends IUnZipCommon {
 
 export class IUnZipToFileStreamInput extends IUnZipCommon {
   /**
-   * @alias 압축 파일 경로
+   * @alias 압축 파일 stream
    */
-  zipPath: any;
+  fileStream: any;
 }
 
 export class IUnZipAndReturnDataOutput extends ICommon {
   /**
-   * @alias 압축파일 json 데이터 반환
+   * @alias 압축 파일 json 데이터 반환
    */
   jsonData?: any;
 }
