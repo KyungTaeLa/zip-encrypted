@@ -36,4 +36,9 @@ export class IUnZipAndReturnDataOutput extends ICommon {
    * @alias 압축 파일 json 데이터 반환
    */
   jsonData?: any;
+
+  /**
+   * @alias 압축 파일 경로
+   */
+  dirPath: string;
 }

@@ -1,6 +1,6 @@
 {
   "name": "zip-encrypted",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "zip-encrypted is a library for Node.js for compressing and decompressing data and files using passwords.",
   "main": "./dist/index.js",
   "repository": {

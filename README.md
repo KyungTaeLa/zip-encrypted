@@ -104,7 +104,6 @@ const { success, dirPath, zipPath } = await makeZip({
 ```ts
 const { success, error, jsonData } = await unZip({
   url: 'https://www.example-zip.com',
-  dirPath: 'C:\\Users\\user\\Desktop\\info\\test_zip',
   zipPassword: '123',
   returnJsonYn: true,
 });
@@ -114,8 +113,7 @@ const { success, error, jsonData } = await unZip({
 
 ```ts
 const { success, error, jsonData } = await unZip({
-  zipPath: 'C:\\Users\\user\\Desktop\\info\\test_zip\\a.zip',
-  dirPath: 'C:\\Users\\user\\Desktop\\info\\test_zip',
+  fileStream: <file stream>,
   zipPassword: '123',
   returnJsonYn: true,
 });
@@ -125,10 +123,6 @@ const { success, error, jsonData } = await unZip({
 
 - Common Request:
 
-  - dirPath
-    - type: string
-    - Description: Folder path for unzipping the file
-    - Required: Yes
   - zipPassword
     - type: string
     - Description: Password for the zip file (if needed)
@@ -146,9 +140,9 @@ const { success, error, jsonData } = await unZip({
 
 - For extracting an already downloaded zip file:
 
-  - zipPath
-    - type: string
-    - Description: Path of the zip file
+  - fileStream
+    - type: any
+    - Description: stream of the zip file
 
 - Common Return:
   - success
@@ -157,6 +151,9 @@ const { success, error, jsonData } = await unZip({
   - error
     - type: string
     - Description: Error message (if any)
+  - dirPath
+    - type: string
+    - Description: Folder of the zip file
   - jsonData
     - type: json
     - Description: Data of the JSON file contained in the zip file (if returnJsonYn is true)

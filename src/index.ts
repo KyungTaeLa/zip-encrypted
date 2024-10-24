@@ -255,11 +255,11 @@ async function unZip(
 
             // json data 같이 반환
             // return with json data
-            resolve({ success: true, jsonData });
+            resolve({ success: true, jsonData, dirPath });
           } else {
             // json data 미반환
             // json data not returned
-            resolve({ success: true });
+            resolve({ success: true, dirPath });
           }
         } else {
           reject(new Error(`Unzip failed with code: ${code}`));

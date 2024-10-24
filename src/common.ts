@@ -37,8 +37,21 @@ export const readJsonFilesFromDirectory = async (
       // json 확장자 파일만 확인
       if (extname(file) === '.json') {
         const rawContent = readFileSync(join(directory, file), 'utf8');
+
         // json data parsing
-        const jsonContent = JSON.parse(rawContent);
+        let jsonContent = JSON.parse(rawContent);
+
+        // emp에서 온 결과 데이터 중에 2중 json parsing 해야 하는 경우가 있다..
+        if (typeof jsonContent === 'string') {
+          try {
+            jsonContent = JSON.parse(jsonContent);
+          } catch (error) {
+            throw {
+              success: false,
+              error: `[JSON parsing error] - ${error.message}`,
+            };
+          }
+        }
         // 파일명을 key로 하여 json data 객체에 추가
         jsonData[file] = jsonContent;
       }
