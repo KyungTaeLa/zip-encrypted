@@ -44,6 +44,9 @@ export const readJsonFilesFromDirectory = async (
         // emp에서 온 결과 데이터 중에 2중 json parsing 해야 하는 경우가 있다..
         if (typeof jsonContent === 'string') {
           try {
+            jsonContent = jsonContent.replace(/\n/gi, '\\n');
+            jsonContent = jsonContent.replace(/\r/gi, '\\r');
+            jsonContent = jsonContent.replace(/\\/gi, '\\\\');
             jsonContent = JSON.parse(jsonContent);
           } catch (error) {
             throw {
