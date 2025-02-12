@@ -249,9 +249,13 @@ async function unZip(
       unzip.on('close', async code => {
         if (code === 0) {
           if (input.returnJsonYn === true) {
+            const encoding = 'encoding' in input ? input.encoding : 'utf8';
             // 압축 해제한 파일들 있는 임시 폴더에 있는 json 파일들 한 객체에 추가
             // Add json files in the temporary folder containing the unzipped files to one object
-            const jsonData = await readJsonFilesFromDirectory(dirPath);
+            const jsonData = await readJsonFilesFromDirectory(
+              dirPath,
+              encoding,
+            );
 
             // json data 같이 반환
             // return with json data

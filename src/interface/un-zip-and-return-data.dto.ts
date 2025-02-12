@@ -29,6 +29,11 @@ export class IUnZipToFileStreamInput extends IUnZipCommon {
    * @alias 압축 파일 stream
    */
   fileStream: any;
+
+  /**
+   * @alias 파일 인코딩
+   */
+  encoding?: 'utf8' | 'euc-kr';
 }
 
 export class IUnZipAndReturnDataOutput extends ICommon {

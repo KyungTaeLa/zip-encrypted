@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import * as https from 'https';
-import { basename, extname, join } from 'path';
+import * as iconv from 'iconv-lite';
+import { extname, join } from 'path';
 
 export async function fetchStream(url: string, config: any): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -27,6 +28,7 @@ export async function fetchStream(url: string, config: any): Promise<any> {
  */
 export const readJsonFilesFromDirectory = async (
   directory: string,
+  encoding: 'utf8' | 'euc-kr',
 ): Promise<any> => {
   try {
     // 폴더에 있는 파일 리스트
@@ -57,6 +59,29 @@ export const readJsonFilesFromDirectory = async (
         }
         // 파일명을 key로 하여 json data 객체에 추가
         jsonData[file] = jsonContent;
+      } else if (extname(file) === '.txt') {
+        let rawContent: string;
+        const filePath = join(directory, file);
+
+        // 파일을 바이너리 형식으로 읽어들인 후, iconv를 사용하여 한글 인코딩을 처리
+        const fileBuffer = readFileSync(filePath);
+
+        rawContent = iconv.decode(fileBuffer, encoding);
+
+        if (typeof rawContent === 'string') {
+          try {
+            rawContent = rawContent.replace(/\n/gi, '\\n');
+            rawContent = rawContent.replace(/\r/gi, '\\r');
+            rawContent = rawContent.replace(/\\/gi, '\\\\');
+          } catch (error) {
+            throw {
+              success: false,
+              error: `[JSON parsing error] - ${error.message}`,
+            };
+          }
+        }
+        // 파일명을 key로 하여 json data 객체에 추가
+        jsonData[file] = rawContent;
       }
     }
 
