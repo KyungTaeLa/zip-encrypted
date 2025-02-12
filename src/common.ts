@@ -37,7 +37,7 @@ export const readJsonFilesFromDirectory = async (
 
     for (const file of files) {
       // json 확장자 파일만 확인
-      if (extname(file) === '.json') {
+      if (extname(file).toLowerCase() === '.json') {
         const rawContent = readFileSync(join(directory, file), 'utf8');
 
         // json data parsing
@@ -59,7 +59,7 @@ export const readJsonFilesFromDirectory = async (
         }
         // 파일명을 key로 하여 json data 객체에 추가
         jsonData[file] = jsonContent;
-      } else if (extname(file) === '.txt') {
+      } else if (extname(file).toLowerCase() === '.txt') {
         let rawContent: string;
         const filePath = join(directory, file);
 
